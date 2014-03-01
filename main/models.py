@@ -33,6 +33,24 @@ class Activity(models.Model):
 
 
 class CompletedActivity(models.Model):
+	""" CompletedActivity in the database for every entry made by the users
+	"""
 	activity = models.ForeignKey(Activity)
 	user = models.ForeignKey(User)
 	time = models.TimeField(auto_now_add=True)
+
+
+class UserProfile(models.Model):
+	""" UserProfile for every user - connects a user with the secure_token created for them.
+	"""
+	user = models.ForeignKey(User)
+	secure_token = models.CharField(max_length=255)
+
+
+class FriendsRecord(models.Model):
+	""" FriendsRecord to determine whether or not someone has a pending friend request and
+		which users are friends.
+	"""
+	user1 = models.ForeignKey(User, related_name="friends_set")
+	user2 = models.ForeignKey(User, related_name="friend_request_set")
+	accepted = models.BooleanField(default=False)
