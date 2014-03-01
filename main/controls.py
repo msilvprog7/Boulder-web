@@ -45,7 +45,7 @@ class Register(TemplateView):
 			messages.error(request, "You're passwords don't match.")
 			return redirect('/')
 		user = User.objects.create_user(request.POST['username'], request.POST['username'], request.POST['password'])
-		user.first_name = requeset.POST['full_name']
+		user.first_name = request.POST['full_name']
 		user.save()
 		user = authenticate(username=request.POST['username'], password=request.POST['password'])
 		login(request, user)
