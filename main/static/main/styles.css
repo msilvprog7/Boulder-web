@@ -1,0 +1,6 @@
+.header {
+	margin-top: -20px;
+	background-image: url('/static/main/bike.JPG');
+	background-position: center;
+	height: 500px;
+}
