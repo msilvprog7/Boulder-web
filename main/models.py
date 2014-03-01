@@ -54,3 +54,25 @@ class FriendsRecord(models.Model):
 	user1 = models.ForeignKey(User, related_name="friends_set")
 	user2 = models.ForeignKey(User, related_name="friend_request_set")
 	accepted = models.BooleanField(default=False)
+
+
+	@staticmethod
+	def getFriends(user_id):
+		""" Get a set of friends for the given user_id
+		"""
+		return FriendsRecord.objects.filter(user1_id=user_id, accepted=True)
+
+	@staticmethod
+	def getFriendRequests(user_id):
+		""" Get a set of pending friend requests for the given user_id
+		"""
+		return FriendsRecord.objects.filter(user2_id=user_id, accepted=False)
+
+	def acceptFriendRequest(self):
+		""" Accept the current FriendsRecord given that this is a pending friend request
+		"""
+		if not self.accepted:
+			new_friends_record = FriendsRecord(user1=self.user2, user2=self.user1, accepted=True)
+			new_friends_record.save()
+			self.accepted = True
+	
