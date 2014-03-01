@@ -33,6 +33,46 @@ class Activity(models.Model):
 
 
 class CompletedActivity(models.Model):
+	""" CompletedActivity in the database for every entry made by the users
+	"""
 	activity = models.ForeignKey(Activity)
 	user = models.ForeignKey(User)
 	time = models.TimeField(auto_now_add=True)
+
+
+class UserProfile(models.Model):
+	""" UserProfile for every user - connects a user with the secure_token created for them.
+	"""
+	user = models.ForeignKey(User)
+	secure_token = models.CharField(max_length=255)
+
+
+class FriendsRecord(models.Model):
+	""" FriendsRecord to determine whether or not someone has a pending friend request and
+		which users are friends.
+	"""
+	user1 = models.ForeignKey(User, related_name="friends_set")
+	user2 = models.ForeignKey(User, related_name="friend_request_set")
+	accepted = models.BooleanField(default=False)
+
+
+	@staticmethod
+	def getFriends(user_id):
+		""" Get a set of friends for the given user_id
+		"""
+		return FriendsRecord.objects.filter(user1_id=user_id, accepted=True)
+
+	@staticmethod
+	def getFriendRequests(user_id):
+		""" Get a set of pending friend requests for the given user_id
+		"""
+		return FriendsRecord.objects.filter(user2_id=user_id, accepted=False)
+
+	def acceptFriendRequest(self):
+		""" Accept the current FriendsRecord given that this is a pending friend request
+		"""
+		if not self.accepted:
+			new_friends_record = FriendsRecord(user1=self.user2, user2=self.user1, accepted=True)
+			new_friends_record.save()
+			self.accepted = True
+	
