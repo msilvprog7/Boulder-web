@@ -1,12 +1,13 @@
 from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
+from main import controls
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'boulder.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
+	url(r'^', controls.Home.as_view()),
+	url(r'^boulder/', include('main.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
 )
