@@ -7,6 +7,9 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 	url(r'^$', controls.Home.as_view()),
+	url(r'^login/', controls.Login.as_view()),
+	url(r'^register/', controls.Register.as_view()),
+
 	url(r'^boulder/', include('main.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
