@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from main.models import PebbleToken
 
-from clfMath import *
+from clfMath.features import *
 
 class JSONPostView(View):
 	@method_decorator(csrf_exempt)
@@ -37,26 +37,33 @@ class GetToken(JSONPostView):
 		try:
 			return {"token": PebbleToken.getFreshToken(obj["id"]), "error": 0}
 		except Exception as e:
-			return {"error": e.message}
+			return {"error": str(e)}
 
 class LogActivity(JSONPostView):
 	# Input: {"activity": "Jumping Jack", "token": "P35"}
 	# Output: {"error": 0}
 	def handle(self, obj):
 		try:
-			if not "data" in self.request.session:
-				clf = train()
-				dWindow = DataWindow()
-				dWindow.setClf(clf)
-				self.request.session["data"] = dWindow
+			dWindow = DataWindow()
+			clf = train()
+			dWindow.setClf(clf)
+			dWindow.current_window = json.loads(self.request.session.get('current_window', "[]"))
+			dWindow.next_window = json.loads(self.request.session.get('next_window', "[]"))
+
 			for x in obj:
-				self.request.session["data"].push((x["x"], x["y"], x["z"], x["time"], 1))
-			activity = self.request.session["data"].calculate()
+				dWindow.push((x["x"], x["y"], x["z"], x["time"], 1))
+
+			activity = dWindow.predict()
+
+			self.request.session['current_window'] = json.dumps(dWindow.current_window)
+			self.request.session['next_window'] = json.dumps(dWindow.next_window)
+
 			if activity[0] > 0:
 				print "Found Activity", str(activity[0])
-			return {"activity": activity[0], "error": 0}
+
+			return {"activity": str(activity), "error": 0}
 		except Exception as e:
-			return {"error": e.message}
+			return {"error": str(e)}
 
 class ViewProfile(JSONPostView):
 	# Input: {"token": "P35", "id": "mypebbleid"}
@@ -66,7 +73,7 @@ class ViewProfile(JSONPostView):
 			u = PebbleToken.getUser(obj["token"], obj["id"])
 			return {"level": -1, "username": u.first_name, "error": 0}
 		except Exception as e:
-			return {"error": e.message}
+			return {"error": str(e)}
 
 @csrf_exempt
 def cookieTest(request):
