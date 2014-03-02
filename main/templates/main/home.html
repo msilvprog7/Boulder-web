@@ -14,7 +14,7 @@
       {
         document.getElementById("progress-bar").setAttribute("aria-valuenow", progress * 100.0 / {{ next_lvl_exp }});
         document.getElementById("progress-bar").setAttribute("style", "width: " + (progress * 100.0 / {{ next_lvl_exp }}) + "%;");
-        document.getElementById("progress-bar-val").innerHTML = progress
+        document.getElementById("progress-bar-val").innerHTML = progress;
 
         if(progress >= {{ current_lvl_exp }})
         {
