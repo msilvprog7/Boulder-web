@@ -67,7 +67,7 @@ class TokenForm(forms.Form):
 class RegisterToken(FormView):
 	template_name = "controls/token.html"
 	form_class = TokenForm
-	success_url = "/boulder/home"
+	success_url = "/boulder/dash/"
 
 	def form_valid(self, form):
 		p = PebbleToken.objects.get(token=form.cleaned_data['token'], user=None)
