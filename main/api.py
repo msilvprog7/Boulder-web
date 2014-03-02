@@ -47,8 +47,9 @@ class LogActivity(JSONPostView):
 			dWindow = DataWindow()
 			clf = train()
 			dWindow.setClf(clf)
-			dWindow.current_window = self.request.session.get('current_window', "[]")
-			dWindow.next_window = self.request.session.get('next_window', "[]")
+			dWindow.current_window = self.request.session.get('current_window', [])
+			dWindow.next_window = self.request.session.get('next_window', [])
+
 			print dWindow.current_window
 			print dWindow.next_window
 
