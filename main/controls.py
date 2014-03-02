@@ -17,7 +17,7 @@ class Home (TemplateView):
 
 	def dispatch(self, request, *args, **kwargs):
 		if request.user.is_authenticated():
-			return redirect('/boulder/home/')
+			return redirect('/boulder/dash/')
 		return super(Home, self).dispatch(request, *args, **kwargs)
 
 class Logout(View):
@@ -34,7 +34,7 @@ class Login(View):
 		if user is not None:
 			if user.is_active:
 				login(request, user)
-				return redirect('/boulder/home/')
+				return redirect('/boulder/dash/')
 				# Redirect to a success page.
 			else:
 				messages.error(request, "That account is disabled.")
@@ -57,7 +57,7 @@ class Register(TemplateView):
 		user.save()
 		user = authenticate(username=request.POST['username'], password=request.POST['password'])
 		login(request, user)
-		return redirect('/boulder/home/')
+		return redirect('/boulder/dash/')
 
 class TokenForm(forms.Form):
 	token = forms.CharField()

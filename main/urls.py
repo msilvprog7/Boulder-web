@@ -7,7 +7,7 @@ import main.api as api
 import main.web as web
 
 urlpatterns = patterns('',
-	url(r'^home/', login_required(web.Dashboard.as_view())),
+	url(r'^dash/', login_required(web.Dashboard.as_view())),
 
 	# API ENDPONINTS
 	url(r'^api/token/', api.GetToken.as_view()),
