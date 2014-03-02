@@ -4,7 +4,7 @@ from django.views.generic import TemplateView, View
 from django.shortcuts import redirect
 
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
 from django.views.generic.edit import FormView
@@ -19,6 +19,11 @@ class Home (TemplateView):
 		if request.user.is_authenticated():
 			return redirect('/boulder/home/')
 		return super(Home, self).dispatch(request, *args, **kwargs)
+
+class Logout(View):
+	def get(self, request, *args, **kwargs):
+		logout(request)
+		return redirect('/')
 
 class Login(View):
 	def post(self, request, *args, **kwargs):
