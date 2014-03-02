@@ -73,25 +73,25 @@ def train():
 	features = []
 	numDumbell, numShoulder, numShoulderPush, numNothing = 0, 0, 0, 0
 	clf = svm.LinearSVC()
-	with open('data/dumbell.csv', 'rU') as csvfile:
+	with open('clfMath/data/dumbell.csv', 'rU') as csvfile:
 		reader = csv.reader(csvfile)
 		dTest = get_features(reader)
 		numDumbell = len(dTest)
 		features += dTest
 		
-	with open('data/shoulder.csv', 'rU') as csvfile:
+	with open('clfMath/data/shoulder.csv', 'rU') as csvfile:
 		reader = csv.reader(csvfile)
 		sTest = get_features(reader)
 		numShoulder = len(sTest)
 		features += sTest
 		
-	with open('data/shoulder_push.csv', 'rU') as csvfile:
+	with open('clfMath/data/shoulder_push.csv', 'rU') as csvfile:
 		reader = csv.reader(csvfile)
 		spTest = get_features(reader)
 		numShoulderPush = len(spTest)
 		features += spTest
 
-	with open('data/nothing.csv', 'rU') as csvfile:
+	with open('clfMath/data/nothing.csv', 'rU') as csvfile:
 		reader = csv.reader(csvfile)
 		nTest = get_features(reader)
 		numNothing = len(nTest)
