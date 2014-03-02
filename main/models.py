@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-import random
 
 from django.core.exceptions import ValidationError
 
@@ -70,6 +69,23 @@ class FriendsRecord(models.Model):
 		"""
 		return FriendsRecord.objects.filter(user2_id=user_id, accepted=False)
 
+	@staticmethod
+	def createPendingRequest(user1, user2):
+		""" Create a pending request from user1 to user2
+		"""
+		new_friends_record = FriendsRecord(user1=user1, user2=user2, accepted=False)
+		new_friends_record.save()
+
+	@staticmethod
+	def removeFriendRecords(user1, user2):
+		""" Remove FriendRecords that exist between users
+		"""
+		record1 = FriendsRecord.objects.filter(user1=user1, user2=user2).first()
+		record1.delete()
+
+		record2 = FriendsRecord.objects.filter(user1=user2, user2=user1).first()
+		record2.delete()
+
 	def acceptFriendRequest(self):
 		""" Accept the current FriendsRecord given that this is a pending friend request
 		"""
@@ -77,6 +93,7 @@ class FriendsRecord(models.Model):
 			new_friends_record = FriendsRecord(user1=self.user2, user2=self.user1, accepted=True)
 			new_friends_record.save()
 			self.accepted = True
+			self.save()
 
 
 class PebbleToken(models.Model):
@@ -106,3 +123,8 @@ class PebbleToken(models.Model):
 	def linkUser(self, user):
 		self.user = user
 		self.save()
+
+
+class Suggestion(models.Model):
+	description = models.TextField()
+	time = models.DateTimeField(auto_now_add=True)

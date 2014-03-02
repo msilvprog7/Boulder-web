@@ -1,13 +1,30 @@
 {% extends "base.html" %}
+{% load main_extras %}
 {% block content %}
 	
 	<div class="container adjust-margin">
 		<div class="jumbotron">
 			<h1>{{ user_info.first_name|lower }}</h1>
 			{% if your_friends %}
-				<button type="button" class="btn btn-med btn-danger"><span class="fa fa-minus"></span> remove friend</button>
+				<form action="" method="post">
+					{% csrf_token %}
+					<input type="hidden" name="type" value="remove">
+					<button type="submit" class="btn btn-med btn-danger"><span class="fa fa-minus"></span> remove friend</button>
+				</form>
+			{% elif you_requested %}
+					<div class="alert alert-warning">request pending</div>
+			{% elif pending_friends %}
+				<form action="" method="post">
+					{% csrf_token %}
+					<input type="hidden" name="type" value="accept">
+					<button type="submit" class="btn btn-med btn-success"><span class="fa fa-plus"></span> accept friend request</button>
+				</form>
 			{% else %}
-				<button type="button" class="btn btn-med btn-success"><span class="fa fa-plus"></span> add friend</button>
+				<form action="" method="post">
+					{% csrf_token %}
+					<input type="hidden" name="type" value="add">
+					<button type="submit" class="btn btn-med btn-success"><span class="fa fa-plus"></span> add friend</button>
+				</form>
 			{% endif %}
 		</div>
 
@@ -40,7 +57,7 @@
 		          </div>
 		          <ul class="list-group">
 		            {% for friend in friends %}
-		              <li class="list-group-item">{{ friend.first_name }}</li>
+		              <a href="/boulder/{{ friend.user2.id }}/{{ friend.user2.first_name|url_name_scramble }}/" class="list-group-item">{{ friend.user2.first_name }}</a>
 		            {% empty %}
 		              <li class="list-group-item list-group-item-info">No friends currently, maybe you should add me.</li>
 		            {% endfor %}
