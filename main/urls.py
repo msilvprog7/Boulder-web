@@ -5,5 +5,9 @@ import main.api as api
 
 urlpatterns = patterns('',
 	url(r'^home/', TemplateView.as_view(template_name="home.html")),
-	url(r'^get_token/', api.GetToken.as_view()),
+
+	# API ENDPONINTS
+	url(r'^api/token/', api.GetToken.as_view()),
+	url(r'^api/log/', api.LogActivity.as_view()),
+	url(r'^api/view/', api.ViewProfile.as_view()),
 )

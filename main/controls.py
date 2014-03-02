@@ -7,6 +7,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 
+from django.views.generic.edit import FormView
+from django import forms
+
 # Create your views here.
 
 class Home (TemplateView):
@@ -50,3 +53,15 @@ class Register(TemplateView):
 		user = authenticate(username=request.POST['username'], password=request.POST['password'])
 		login(request, user)
 		return redirect('/boulder/home/')
+
+class TokenForm(forms.Form):
+	token = forms.CharField()
+
+class RegisterToken(FormView):
+	template_name = "controls/token.html"
+	form_class = TokenForm
+	success_url = "/boulder/home"
+
+	def form_valid(self, form):
+		print form.cleaned_data['token']
+		return super(RegisterToken, self).form_valid(form)
