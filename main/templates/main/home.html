@@ -7,15 +7,21 @@
     </div>
 
     <div class="row">
-      <div class="col-sm-4">
+      <div class="col-sm-5">
         
         <div class="panel panel-default">
 
-          <div class="panel-heading"><span class="fa fa-check-circle-o"></span> {{ reps }} rep points</div>
+          <div class="panel-heading"><span class="fa fa-check-circle-o"></span> {{ reps }} rep point{{ reps|pluralize }}</div>
 
           <ul class="list-group">
             {% for recent_rep in recent_reps %}
-              <li class="list-group-item">{{ recent_rep.getPoints }} rep on {{ recent_rep.activity.name }} on {{ recent_rep.time|date:"M. jS, Y (g:i a)" }}</li>
+              <li class="list-group-item">
+                {{ recent_rep.getPoints }} rep{{ recent_rep.getPoints|pluralize }} with {{ recent_rep.number|pluralize:"a,some"}} 
+                {{ recent_rep.activity.name }}{{ recent_rep.number|pluralize }}
+                <br />
+                <small class="extra-small pull-right">{{ recent_rep.time|date:"M. jS, Y (g:i a)" }}</small>
+                <br />
+              </li>
             {% empty %}
               <li class="list-group-item list-group-item-danger">No activities have been completed!</li>
             {% endfor %}
@@ -28,7 +34,7 @@
       </div>
 
 
-      <div class="col-sm-8">
+      <div class="col-sm-7">
         
         <div class="panel panel-default">
 
@@ -52,21 +58,24 @@
     <div class="row">
 
 
-      <div class="col-sm-4">
+      <div class="col-sm-5">
         
         <div class="panel panel-default">
 
           <div class="panel-heading"><span class="fa fa-user"></span> {{ friends|length }} friends {% if pending_friends|length > 0 %}({{ pending_friends|length }} pending){% endif %}</div>
 
           <ul class="list-group">
-            
-            <li class="list-group-item list-group-item-warning">
-                <button type="button" class="pull-right btn btn-xs btn-success"><span class="fa fa-plus"></span> accept</button>
-                Michael Snider
-            </li>
-            <li class="list-group-item">Hunter Leath</li>
-            <li class="list-group-item">Joe Barrow</li>
-            <li class="list-group-item">Dylan Ferrer</li>
+
+            {% for pending_friend in pending_friends %}
+              <li class="list-group-item list-group-item-warning">
+                  <button type="button" class="pull-right btn btn-xs btn-success"><span class="fa fa-plus"></span> accept</button>
+                  {{ pending_friend.first_name }}
+              </li>
+            {% endfor %}
+
+            {% for friend in friends %}
+              <li class="list-group-item">{{ friend.first_name }}</li>
+            {% endfor %}
           </ul>
 
 
@@ -78,7 +87,7 @@
 
 
 
-      <div class="col-sm-8">
+      <div class="col-sm-7">
         
         <div class="panel panel-default">
 

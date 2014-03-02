@@ -8,3 +8,8 @@
 .adjust-margin {
 	margin-top: 40px;
 }
+
+.extra-small {
+	font-size: 10px;
+	color: #CFCFCF;
+}
