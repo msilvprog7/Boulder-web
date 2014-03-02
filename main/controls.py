@@ -72,5 +72,5 @@ class RegisterToken(FormView):
 	def form_valid(self, form):
 		p = PebbleToken.objects.get(token=form.cleaned_data['token'], user=None)
 		p.linkUser(self.request.user)
-		messages.info(request, "Successfully linked your Pebble.")
+		messages.info(self.request, "Successfully linked your Pebble.")
 		return super(RegisterToken, self).form_valid(form)
