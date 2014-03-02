@@ -13,6 +13,7 @@ urlpatterns = patterns('',
 	url(r'^api/token/', api.GetToken.as_view()),
 	url(r'^api/log/', api.LogActivity.as_view()),
 	url(r'^api/view/', api.ViewProfile.as_view()),
+	url(r'^api/cookieTest/', "api.cookieTest"),
 
 	url(r'^search/', login_required(web.Search.as_view())),
 	url(r'^(?P<user_id>\d+)/\w+\.+\w+/', login_required(web.Profile.as_view())),
