@@ -110,7 +110,7 @@ class PebbleToken(models.Model):
 	@staticmethod
 	def getFreshToken(pebbleId):
 		pt = PebbleToken()
-		pt.token = ''.join(random.choice('0123456789ABCDEF') for i in range(16))
+		pt.token = ''.join(random.choice('0123456789ABCDEF') for i in range(6))
 		pt.pebbleId = pebbleId
 		try:
 			pt.save()
