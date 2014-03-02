@@ -5,6 +5,8 @@ from main import controls
 
 from django.contrib.auth.decorators import login_required
 
+from boulder import settings
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -16,6 +18,8 @@ urlpatterns = patterns('',
 
 	url(r'^pebble/', login_required(controls.RegisterToken.as_view())),
 
+	# url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
+	
 	url(r'^boulder/', include('main.urls')),
 
     url(r'^admin/', include(admin.site.urls)),

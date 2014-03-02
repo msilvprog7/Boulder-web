@@ -32,7 +32,7 @@ class GetToken(JSONPostView):
 	# Input: {"id": "mypebbleid"}
 	# Output: {"token": "P23ASD", "error": 0}
 	def handle(self, obj):
-		return {"token": PebbleToken.getFreshToken(obj.id), "error": 0}
+		return {"token": PebbleToken.getFreshToken(obj["id"]), "error": 0}
 
 class LogActivity(JSONPostView):
 	# Input: {"activity": "Jumping Jack", "token": "P35"}

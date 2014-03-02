@@ -81,6 +81,8 @@ IS_HEROKU = not ("Hunter" in os.uname()[1] or "MICHAEL" in os.uname()[1])
 
 # Parse database configuration from $DATABASE_URL
 if IS_HEROKU:
+    # DEBUG = False
+    # ALLOWED_HOSTS = ["boulder.hunterleath.com"]
     import dj_database_url
     DATABASES['default'] =  dj_database_url.config()
 

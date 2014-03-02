@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 
 from django.core.exceptions import ValidationError
 
+import random
+
 # Create your models here.
 class Activity(models.Model):
 	""" Activity stored in the database to associate with specific motions
@@ -118,7 +120,7 @@ class PebbleToken(models.Model):
 	@staticmethod
 	def getFreshToken(pebbleId):
 		pt = PebbleToken()
-		pt.token = ''.join(random.choice('0123456789ABCDEF') for i in range(16))
+		pt.token = ''.join(random.choice('0123456789ABCDEF') for i in range(6))
 		pt.pebbleId = pebbleId
 		try:
 			pt.save()
