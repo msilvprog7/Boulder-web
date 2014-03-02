@@ -76,7 +76,7 @@ class ViewProfile(JSONPostView):
 	def handle(self, obj):
 		try:
 			u = PebbleToken.getUser(obj["token"], obj["id"])
-			return {"level": Activity.getLevel(u.id), "username": u.first_name, "error": 0}
+			return {"level": Activity.getLvl(u.id), "username": u.first_name, "error": 0}
 		except Exception as e:
 			return {"error": str(e)}
 
