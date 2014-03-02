@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+import random
+
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 class Activity(models.Model):
@@ -31,7 +34,6 @@ class Activity(models.Model):
 		return Activity.getUserPoints(user_id, self.id)
 
 
-
 class CompletedActivity(models.Model):
 	""" CompletedActivity in the database for every entry made by the users
 	"""
@@ -45,14 +47,6 @@ class CompletedActivity(models.Model):
 		"""
 		return self.number * Activity.objects.get(id=self.activity_id).points
 
-
-
-
-class UserProfile(models.Model):
-	""" UserProfile for every user - connects a user with the secure_token created for them.
-	"""
-	user = models.ForeignKey(User)
-	secure_token = models.CharField(max_length=255)
 
 
 class FriendsRecord(models.Model):
@@ -83,4 +77,24 @@ class FriendsRecord(models.Model):
 			new_friends_record = FriendsRecord(user1=self.user2, user2=self.user1, accepted=True)
 			new_friends_record.save()
 			self.accepted = True
-	
+
+
+class PebbleToken(models.Model):
+	token = models.CharField(max_length=255)
+	pebbleId = models.CharField(max_length=255)
+	user = models.ForeignKey(User)
+	added = models.DateTimeField(auto_now_add=True)
+
+	class Meta:
+		unique_together = ("token", "pebbleId")
+
+	@staticmethod
+	def getFreshToken(pebbleId):
+		pt = PebbleToken()
+		pt.token = ''.join(random.choice('0123456789ABCDEF') for i in range(16))
+		pt.pebbleId = pebbleId
+		try:
+			pt.save()
+			return pt.token
+		except ValidationError:
+			return PebbleToken.getFreshToken(pebbleId)

@@ -2,6 +2,8 @@ import json
 from django.http import HttpResponse
 from django.views.generic import View
 
+from main.models import PebbleToken
+
 class JSONPostView(View):
 	def handle(self, object):
 		raise ValueError
@@ -20,13 +22,13 @@ class JSONGetView(View):
 		return HttpResponse(json.dumps(out))
 
 class GetToken(JSONPostView):
-	def handle(self, object):
-		return {"asdf": "boo"}
+	def handle(self, obj):
+		return {"token": PebbleToken.getFreshToken(obj.id)}
 
 class LogActivity(JSONPostView):
-	def handle(self, object):
+	def handle(self, obj):
 		return {"asdf": "boo"}
 
 class ViewProfile(JSONPostView):
-	def handle(self, object):
+	def handle(self, obj):
 		return {"asdf": "boo"}
