@@ -2,9 +2,15 @@ import json
 from django.http import HttpResponse
 from django.views.generic import View
 
+from django.views.decorators.csrf import csrf_exempt
+
 from main.models import PebbleToken
 
 class JSONPostView(View):
+	@method_decorator(csrf_exempt)
+	def dispatch(self, *args, **kwargs):
+		return super(JSONPostView, self).dispatch(*args, **kwargs)
+
 	def handle(self, object):
 		raise ValueError
 
