@@ -91,6 +91,6 @@ class Profile(TemplateView):
 		context["your_friends"] = len(FriendsRecord.getFriends(self.request.user.id).filter(user2=User.objects.get(id=int(kwargs["user_id"])))) > 0
 		context["pending_friends"] = len(FriendsRecord.getFriendRequests(self.request.user.id).filter(user1=User.objects.get(id=int(kwargs["user_id"])), accepted=False)) > 0
 		context["you_requested"] = len(FriendsRecord.getFriendRequests(int(kwargs["user_id"])).filter(user1=self.request.user, accepted=False)) > 0
-		context["user_lvl"] = Activity.getLvl(self.request.user.id)
+		context["user_lvl"] = Activity.getLvl(int(kwargs["user_id"]))
 
 		return context

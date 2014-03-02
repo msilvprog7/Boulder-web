@@ -7,7 +7,7 @@
 
       function getProgress()
       {
-        return parseInt(document.getElementById("progress-bar-val").innerHTML);
+        return Math.floor(parseInt(document.getElementById("progress-bar-val").innerHTML) * {{ next_lvl_exp }} / 100.0);
       }
 
       function setProgress(progress)
@@ -126,8 +126,7 @@
               {% if news_item.other_user|is_none and news_item.completed_activity|is_none %}
                 [warning] incorrect NewsfeedItem composed
               {% elif news_item.other_user|is_none %}
-                {{ news_item.user.first_name }} did {{ news_item.completed_activity.number }} {{ news_item.completed_activity.activity.name }} 
-                {{ news_item.completed_activity.number|pluralize }} for 
+                {{ news_item.user.first_name }} did {{ news_item.completed_activity.number }} {{ news_item.completed_activity.activity.name }}{{ news_item.completed_activity.number|pluralize }} for 
                 {{ news_item.completed_activity.getPoints }} rep point{{ news_item.completed_activity.getPoints|pluralize }}.
               {% elif news_item.completed_activity|is_none %}
                 {% if request.user.id == news_item.other_user.id %}
