@@ -75,6 +75,8 @@
 
             {% for friend in friends %}
               <li class="list-group-item">{{ friend.first_name }}</li>
+            {% empty %}
+              <li class="list-group-item list-group-item-info">No friends currently, try finding their profile on the search bar above.</li>
             {% endfor %}
           </ul>
 
