@@ -19,6 +19,14 @@ class JSONGetView(View):
 		out = self.handle()
 		return HttpResponse(json.dumps(out))
 
-class GetToken(JSONGetView):
+class GetToken(JSONPostView):
+	def handle(self, object):
+		return {"asdf": "boo"}
+
+class LogActivity(JSONPostView):
+	def handle(self, object):
+		return {"asdf": "boo"}
+
+class ViewProfile(JSONPostView):
 	def handle(self, object):
 		return {"asdf": "boo"}
