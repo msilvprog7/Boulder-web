@@ -2,9 +2,10 @@ from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
 
 import main.api as api
+import main.web as web
 
 urlpatterns = patterns('',
-	url(r'^home/', TemplateView.as_view(template_name="home.html")),
+	url(r'^home/', web.Dashboard.as_view()),
 
 	# API ENDPONINTS
 	url(r'^api/token/', api.GetToken.as_view()),
