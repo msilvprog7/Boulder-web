@@ -21,7 +21,7 @@ class Activity(models.Model):
 
 		sum = 0
 		for current_activity in completed_activities:
-			sum += Activity.objects.get(id=current_activity.activity_id).points
+			sum += Activity.objects.get(id=current_activity.activity_id).points * current_activity.number
 
 		return sum
 
@@ -36,8 +36,16 @@ class CompletedActivity(models.Model):
 	""" CompletedActivity in the database for every entry made by the users
 	"""
 	activity = models.ForeignKey(Activity)
+	number = models.IntegerField(default=1)
 	user = models.ForeignKey(User)
-	time = models.TimeField(auto_now_add=True)
+	time = models.DateTimeField(auto_now_add=True)
+
+	def getPoints(self):
+		""" Get points for the current CompletedActivity
+		"""
+		return self.number * Activity.objects.get(id=self.activity_id).points
+
+
 
 
 class UserProfile(models.Model):
