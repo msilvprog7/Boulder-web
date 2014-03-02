@@ -32,7 +32,10 @@ class GetToken(JSONPostView):
 	# Input: {"id": "mypebbleid"}
 	# Output: {"token": "P23ASD", "error": 0}
 	def handle(self, obj):
-		return {"token": PebbleToken.getFreshToken(obj["id"]), "error": 0}
+		try:
+			return {"token": PebbleToken.getFreshToken(obj["id"]), "error": 0}
+		except Exception as e:
+			return {"error": e.message}
 
 class LogActivity(JSONPostView):
 	# Input: {"activity": "Jumping Jack", "token": "P35"}
@@ -44,5 +47,8 @@ class ViewProfile(JSONPostView):
 	# Input: {"token": "P35", "id": "mypebbleid"}
 	# Output: {"level": 0, "name": "Hunter Leath", "error": 0}
 	def handle(self, obj):
-		u = PebbleToken.getUser(obj["token"], obj["id"])
-		return {"level": -1, "username": u.first_name, "error": 0}
+		try:
+			u = PebbleToken.getUser(obj["token"], obj["id"])
+			return {"level": -1, "username": u.first_name, "error": 0}
+		except Exception as e:
+			return {"error": e.message}
