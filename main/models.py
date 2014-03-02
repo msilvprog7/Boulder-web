@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 
 from django.core.exceptions import ValidationError
 
+from datetime import datetime, timedelta
+
 import random, math
 
 # Create your models here.
@@ -48,6 +50,10 @@ class Activity(models.Model):
 		"""
 		return int(Activity.getUserPoints(user_id) - Activity.getLvl(user_id) ** 3.0)
 
+	@staticmethod
+	def activityFromClfId(clfId):
+		return Activity.objects.get(description=str(clfId))
+
 
 	def getActivityUserPoints(self, user_id):
 		""" Returns number of points earned by the user for the current activity
@@ -66,7 +72,22 @@ class CompletedActivity(models.Model):
 	def getPoints(self):
 		""" Get points for the current CompletedActivity
 		"""
-		return self.number * Activity.objects.get(id=self.activity_id).points
+		return self.number * self.activity.points
+
+	@staticmethod
+	def logActivityForUser(user, activity):
+		others = CompletedActivity.objects.filter(user=user, activity=activity).order_by("-time")
+		if len(others) != 0:
+			if (datetime.now() - others[0].time) < timedelta(seconds=5):
+				others[0].number += 1
+				others[0].save()
+				return
+		c = CompletedActivity()
+		c.activity = activity
+		c.number = 1
+		c.user = user
+		c.save()
+
 
 
 

@@ -5,7 +5,7 @@ from django.views.generic import View
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
-from main.models import PebbleToken
+from main.models import PebbleToken, Activity, CompletedActivity
 
 from clfMath.features import *
 
@@ -50,10 +50,7 @@ class LogActivity(JSONPostView):
 			dWindow.current_window = self.request.session.get('current_window', [])
 			dWindow.next_window = self.request.session.get('next_window', [])
 
-			print dWindow.current_window
-			print dWindow.next_window
-
-			for x in obj:
+			for x in obj["data"]:
 				dWindow.push((x["x"], x["y"], x["z"], x["time"], 1))
 
 			activity = dWindow.predict()
@@ -62,7 +59,9 @@ class LogActivity(JSONPostView):
 			self.request.session['next_window'] = dWindow.next_window
 
 			if activity[0] > 0:
-				print "Found Activity", str(activity[0])
+				u = PebbleToken.getUser(obj["token"], obj["id"])
+				a = Activity.activityFromClfId(int(activity[0]))
+				CompletedActivity.logActivityForUser(u, a)
 
 			return {"activity": str(activity), "error": 0}
 		except Exception as e:
