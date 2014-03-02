@@ -34,20 +34,12 @@ class Activity(models.Model):
 		return Activity.getUserPoints(user_id, self.id)
 
 
-
 class CompletedActivity(models.Model):
 	""" CompletedActivity in the database for every entry made by the users
 	"""
 	activity = models.ForeignKey(Activity)
 	user = models.ForeignKey(User)
 	time = models.DateTimeField(auto_now_add=True)
-
-
-class UserProfile(models.Model):
-	""" UserProfile for every user - connects a user with the secure_token created for them.
-	"""
-	user = models.ForeignKey(User)
-	secure_token = models.CharField(max_length=255)
 
 
 class FriendsRecord(models.Model):
@@ -78,6 +70,7 @@ class FriendsRecord(models.Model):
 			new_friends_record = FriendsRecord(user1=self.user2, user2=self.user1, accepted=True)
 			new_friends_record.save()
 			self.accepted = True
+
 
 class PebbleToken(models.Model):
 	token = models.CharField(max_length=255)
