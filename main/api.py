@@ -41,7 +41,8 @@ class LogActivity(JSONPostView):
 		return {"error": 0}
 
 class ViewProfile(JSONPostView):
-	# Input: {"token": "P35"}
-	# Output: {"reps": 0, "name": "Hunter Leath", "error": 0}
+	# Input: {"token": "P35", "id": "mypebbleid"}
+	# Output: {"level": 0, "name": "Hunter Leath", "error": 0}
 	def handle(self, obj):
-		return {"reps": 0, "name": "Hunter Leath", "error": 0}
+		u = PebbleToken.getUser(obj["token"], obj["id"])
+		return {"level": -1, "username": u.first_name, "error": 0}
