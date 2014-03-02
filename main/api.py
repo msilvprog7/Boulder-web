@@ -53,12 +53,15 @@ class LogActivity(JSONPostView):
 			for x in obj["data"]:
 				dWindow.push((x["x"], x["y"], x["z"], x["time"], 1))
 
+			# print len(dWindow.current_window), len(dWindow.next_window)
+
 			activity = dWindow.predict()
 
 			self.request.session['current_window'] = dWindow.current_window
 			self.request.session['next_window'] = dWindow.next_window
 
 			if activity[0] > 0:
+				# print "Got Activity", str(activity[0])
 				u = PebbleToken.getUser(obj["token"], obj["id"])
 				a = Activity.activityFromClfId(int(activity[0]))
 				CompletedActivity.logActivityForUser(u, a)
@@ -73,7 +76,7 @@ class ViewProfile(JSONPostView):
 	def handle(self, obj):
 		try:
 			u = PebbleToken.getUser(obj["token"], obj["id"])
-			return {"level": -1, "username": u.first_name, "error": 0}
+			return {"level": Activity.getLevel(u.id), "username": u.first_name, "error": 0}
 		except Exception as e:
 			return {"error": str(e)}
 
