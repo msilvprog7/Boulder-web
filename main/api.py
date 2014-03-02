@@ -53,7 +53,7 @@ class ViewProfile(JSONPostView):
 		except Exception as e:
 			return {"error": e.message}
 
-def testCookies(request):
+def cookieTest(request):
     if request.method == 'POST':
         if request.session.test_cookie_worked():
             request.session.delete_test_cookie()
