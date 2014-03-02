@@ -3,6 +3,8 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from main import controls
 
+from django.contrib.auth.decorators import login_required
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -12,7 +14,7 @@ urlpatterns = patterns('',
 	url(r'^logout/', controls.Logout.as_view()),
 	url(r'^register/', controls.Register.as_view()),
 
-	url(r'^pebble/', controls.RegisterToken.as_view()),
+	url(r'^pebble/', login_required(controls.RegisterToken.as_view())),
 
 	url(r'^boulder/', include('main.urls')),
 
