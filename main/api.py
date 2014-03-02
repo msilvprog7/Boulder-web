@@ -44,16 +44,23 @@ class LogActivity(JSONPostView):
 	# Output: {"error": 0}
 	def handle(self, obj):
 		try:
-			if not "data" in self.request.session:
-				clf = train()
-				dWindow = DataWindow()
-				dWindow.setClf(clf)
-				self.request.session["data"] = dWindow
+			dWindow = DataWindow()
+			clf = train()
+			dWindow.setClf(clf)
+			dWindow.current_window = self.request.session.get('current_window', [])
+			dWindow.next_window = self.request.session.get('next_window', [])
+
 			for x in obj:
-				self.request.session["data"].push((x["x"], x["y"], x["z"], x["time"], 1))
-			activity = self.request.session["data"].calculate()
+				dWindow.push((x["x"], x["y"], x["z"], x["time"], 1))
+
+			activity = dWindow.calculate()
+
+			self.request.session['current_window'] = dWindow.current_window
+			self.request.session['next_window'] = dWindow.next_window
+
 			if activity[0] > 0:
 				print "Found Activity", str(activity[0])
+				
 			return {"activity": activity[0], "error": 0}
 		except Exception as e:
 			return {"error": str(e)}
