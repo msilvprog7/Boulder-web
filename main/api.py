@@ -61,7 +61,7 @@ class LogActivity(JSONPostView):
 			if activity[0] > 0:
 				print "Found Activity", str(activity[0])
 
-			return {"activity": activity[0], "error": 0}
+			return {"activity": str(activity), "error": 0}
 		except Exception as e:
 			return {"error": str(e)}
 
