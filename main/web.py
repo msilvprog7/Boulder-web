@@ -30,6 +30,8 @@ class Dashboard(TemplateView):
 
 		context["news_items"] = sorted([item for subset in NewsfeedItem.getItems(FriendsRecord.getFriends(self.request.user.id)) for item in subset], key=lambda news_item: news_item.time, reverse=True)[:5]
 
+		context["lvl"] = Activity.getLvl(self.request.user.id)
+
 		return context
 
 
@@ -87,5 +89,6 @@ class Profile(TemplateView):
 		context["your_friends"] = len(FriendsRecord.getFriends(self.request.user.id).filter(user2=User.objects.get(id=int(kwargs["user_id"])))) > 0
 		context["pending_friends"] = len(FriendsRecord.getFriendRequests(self.request.user.id).filter(user1=User.objects.get(id=int(kwargs["user_id"])), accepted=False)) > 0
 		context["you_requested"] = len(FriendsRecord.getFriendRequests(int(kwargs["user_id"])).filter(user1=self.request.user, accepted=False)) > 0
+		context["user_lvl"] = Activity.getLvl(self.request.user.id)
 
 		return context

@@ -2,6 +2,22 @@
 
 {% block moreScript %}
 <script src="/static/main/login.js"></script>
+<script type="text/javascript">
+  $(function() {
+    $('a[href*=#]:not([href=#])').click(function() {
+      if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+        var target = $(this.hash);
+        target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+        if (target.length) {
+          $('html,body').animate({
+            scrollTop: target.offset().top
+          }, 1000);
+          return false;
+        }
+      }
+    });
+  });
+</script>
 {% endblock %}
 
 {% block content %}
@@ -49,31 +65,29 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-4">
+        <a name="learn"></a>
         <h2>Why?</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p>
+          Whether it be living at the University or surviving your first Hackathon, there is always
+          a fundamental need to be healthier. That's where Boulder comes in, a highly-<a href="http://getpebble.com/">Pebble</a>-based
+          application that captures the <i>motion</i> from your <b>Pebble watch</b> to compare it
+          to a data-set that was trained using a <i>Machine Learning algorithm</i> called a <b>Support Vector Machine</b>.
+          Capturing these motions and associating them with learned sets allows us to perceive what exercises
+          a user is working on and promptly reward them. An engaging experience for everyone!
+        </p>
+      </div>
+      <div class="col-sm-4">
+        <img src="/static/main/pebble_demo.png" class="mid-col-img"></img>
       </div>
       <div class="col-sm-4">
         <h2>How?</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      </div>
-      <div class="col-sm-4">
-        <h2>Where?</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p>
+          We reward users for exercising by providing them a <i>highly engaging</i> <b>social</b> experience on the website. Being able to securely
+          <i>add/remove users</i> with a pending system and a search functionality that only finds exact email queries, the common
+          user doesn't have to worry about being stalked/spied on/invaded or any of the other typical horror story motifs. Users
+          can <i>see their most recent activities</i>, <i>view suggestions of healthy activities from the admins</i>, and even <i>see
+          their friends activities on the</i> <b>newsfeed</b>. Go ahead, get out your Pebble and register today!
+        </p>
       </div>
     </div>
   </div>
