@@ -28,7 +28,7 @@
             {% if request.user.is_authenticated %}
               <form class="navbar-form navbar-left" role="search" action="/boulder/search/">
                 <div class="form-group top-search">
-                  <input name="search_email" class="form-control input-sm" type="text" placeholder="Search email...">
+                  <input name="search_email" class="form-control input-sm" type="text" placeholder="Search email..." autocomplete="off">
                 </div>
               </form>
               <li><a href="#">My Profile</a></li>

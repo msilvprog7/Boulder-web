@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+
+	<div class="container adjust-margin">
+    	<div class="alert alert-danger adjust-margin">
+    		Oops. It doesn't seem that the email entered is associated with a given account.
+    		<br /><br />
+    		Try searching the email again, the email you entered may have been incorrect!
+    		<br />
+    		You entered: <i>{{ search_email }}</i>
+      	</div>
+    </div>
+
+
+{% endblock %}
