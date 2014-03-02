@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 from django.core.exceptions import ValidationError
 
-import random
+import random, math
 
 # Create your models here.
 class Activity(models.Model):
@@ -35,6 +35,18 @@ class Activity(models.Model):
 			where exp is rep points in our case)
 		"""
 		return int(Activity.getUserPoints(user_id) ** (1/3.0))
+
+	@staticmethod
+	def getNextLvlExp(user_id):
+		""" Gets exp req to get to the next level from the base of the current level
+		"""
+		return int((Activity.getLvl(user_id) + 1) ** 3.0 - Activity.getUserPoints(user_id))
+	
+	@staticmethod
+	def getCurrentLvlExp(user_id):
+		""" Get current exp in level from the base of the current level
+		"""
+		return int(Activity.getUserPoints(user_id) - Activity.getLvl(user_id) ** 3.0)
 
 
 	def getActivityUserPoints(self, user_id):

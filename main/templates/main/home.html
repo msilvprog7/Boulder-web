@@ -1,11 +1,53 @@
 {% extends "base.html" %}
 {% load main_extras %}
+
+{% block moreScript %}
+  <script type="text/javascript">
+      var updateInterval;
+
+      function getProgress()
+      {
+        return parseInt(document.getElementById("progress-bar-val").innerHTML);
+      }
+
+      function setProgress(progress)
+      {
+        document.getElementById("progress-bar").setAttribute("aria-valuenow", progress * 100.0 / {{ next_lvl_exp }});
+        document.getElementById("progress-bar").setAttribute("style", "width: " + (progress * 100.0 / {{ next_lvl_exp }}) + "%;");
+        document.getElementById("progress-bar-val").innerHTML = progress
+
+        if(progress >= {{ current_lvl_exp }})
+        {
+          document.getElementById("progress-bar").setAttribute("class", "progress-bar progress-bar-success");
+        }
+      }
+
+      function updateProgress()
+      {
+        var currProgress = getProgress();
+        if(currProgress < {{ current_lvl_exp }})
+        {
+          setProgress(currProgress + 1);
+        }else
+        {
+          clearInterval(updateInterval);
+        }
+      }
+
+      window.onload = function()
+      {
+        updateInterval = window.setInterval(function(){updateProgress()}, 100);
+      };
+
+  </script>
+{% endblock %}
+
 {% block content %}
 
   <div class="container adjust-margin">
     <div class="jumbotron">
       <h1>my dash</h1>
-      <h5 class="text-muted">Lvl: {{ lvl }}</h5>
+      <h5 class="text-muted">Lvl: {{ lvl }} <div class="progress"><div class="progress-bar progress-bar-info" id="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div></div><span id="progress-bar-val">0</span>/{{ next_lvl_exp }} exp till level up</h5>
     </div>
 
     <div class="row">

@@ -31,6 +31,8 @@ class Dashboard(TemplateView):
 		context["news_items"] = sorted([item for subset in NewsfeedItem.getItems(FriendsRecord.getFriends(self.request.user.id)) for item in subset], key=lambda news_item: news_item.time, reverse=True)[:5]
 
 		context["lvl"] = Activity.getLvl(self.request.user.id)
+		context["current-lvl-exp"] = Activity.getCurrentLvlExp(self.request.user.id)
+		context["next-lvl-exp"] = Activity.getNextLvlExp(self.request.user.id)
 
 		return context
 
