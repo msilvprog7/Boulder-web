@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 from datetime import datetime, timedelta
+import time
 
 import random, math
 
@@ -78,7 +79,7 @@ class CompletedActivity(models.Model):
 	def logActivityForUser(user, activity):
 		others = CompletedActivity.objects.filter(user=user, activity=activity).order_by("-time")
 		if len(others) != 0:
-			if (datetime.utcnow() - others[0].time) < timedelta(seconds=5):
+			if (time.mktime(datetime.utcnow().timetuple()) - (time.mktime(others[0].time.timetuple())) < 5:
 				others[0].number += 1
 				others[0].save()
 				return
