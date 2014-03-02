@@ -7,12 +7,10 @@
     </div>
 
     <div class="row">
+
       <div class="col-sm-5">
-        
         <div class="panel panel-default">
-
           <div class="panel-heading"><span class="fa fa-check-circle-o"></span> {{ reps }} rep point{{ reps|pluralize }}</div>
-
           <ul class="list-group">
             {% for recent_rep in recent_reps %}
               <li class="list-group-item">
@@ -26,30 +24,19 @@
               <li class="list-group-item list-group-item-danger">No activities have been completed!</li>
             {% endfor %}
           </ul>
-
         </div>
-
-
-
       </div>
 
 
       <div class="col-sm-7">
-        
         <div class="panel panel-default">
-
           <div class="panel-heading"><span class="fa fa-heart"></span> suggestions</div>
-
           <ul class="list-group">
             <li class="list-group-item">Jog in between sets to get the most from your work out.</li>
             <li class="list-group-item">Take a break every now and then, making sure to stay hydrated.</li>
             <li class="list-group-item">Don't wear yourself out, you're only human!</li>
           </ul>
-          
         </div>
-
-
-
       </div>
 
     </div>
@@ -57,15 +44,12 @@
 
     <div class="row">
 
-
       <div class="col-sm-5">
-        
         <div class="panel panel-default">
-
-          <div class="panel-heading"><span class="fa fa-user"></span> {{ friends|length }} friends {% if pending_friends|length > 0 %}({{ pending_friends|length }} pending){% endif %}</div>
-
+          <div class="panel-heading"><span class="fa fa-user"></span> {{ friends|length }} friends 
+              {% if pending_friends|length > 0 %}({{ pending_friends|length }} pending){% endif %}
+          </div>
           <ul class="list-group">
-
             {% for pending_friend in pending_friends %}
               <li class="list-group-item list-group-item-warning">
                   <button type="button" class="pull-right btn btn-xs btn-success"><span class="fa fa-plus"></span> accept</button>
@@ -79,22 +63,13 @@
               <li class="list-group-item list-group-item-info">No friends currently, try finding their profile on the search bar above.</li>
             {% endfor %}
           </ul>
-
-
         </div>
-
-
-
       </div>
 
 
-
       <div class="col-sm-7">
-        
         <div class="panel panel-default">
-
           <div class="panel-heading"><span class="fa fa-globe"></span> newsfeed</div>
-
           <ul class="list-group">
             <li class="list-group-item">Dylan went on a 30 min. jog.</li>
             <li class="list-group-item">Dylan and you became friends!</li>
@@ -102,14 +77,12 @@
             <li class="list-group-item">Hunter did 15 pushups for 30 rep points.</li>
             <li class="list-group-item">Hunter and you became friends!</li>
           </ul>
-
         </div>
-
-
-
       </div>
+    
     </div>
 
+  
   </div>
 
 
