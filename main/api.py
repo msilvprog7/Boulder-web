@@ -47,18 +47,16 @@ class LogActivity(JSONPostView):
 			dWindow = DataWindow()
 			clf = train()
 			dWindow.setClf(clf)
-			dWindow.current_window = self.request.session.get('current_window', [])
-			dWindow.next_window = self.request.session.get('next_window', [])
+			dWindow.current_window = json.loads(self.request.session.get('current_window', "[]"))
+			dWindow.next_window = json.loads(self.request.session.get('next_window', "[]"))
 
 			for x in obj:
 				dWindow.push((x["x"], x["y"], x["z"], x["time"], 1))
 
 			activity = dWindow.predict()
 
-			print dWindow.current_window
-			print dWindow.next_window
-			self.request.session['current_window'] = dWindow.current_window
-			self.request.session['next_window'] = dWindow.next_window
+			self.request.session['current_window'] = json.dumps(dWindow.current_window)
+			self.request.session['next_window'] = json.dumps(dWindow.next_window)
 
 			if activity[0] > 0:
 				print "Found Activity", str(activity[0])

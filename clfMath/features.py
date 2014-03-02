@@ -24,8 +24,6 @@ class DataWindow:
 				self.next_window = []
 
 	def predict(self):
-		print len(self.current_window)
-		print len(self.next_window)
 		features = get_features(self.current_window + [(0, 0, 0, 0, 2)])
 		# print features
 		return self.clf.predict([list(features[0])])
