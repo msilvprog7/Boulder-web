@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 
 from django.core.exceptions import ValidationError
 
+import random
+
 # Create your models here.
 class Activity(models.Model):
 	""" Activity stored in the database to associate with specific motions
