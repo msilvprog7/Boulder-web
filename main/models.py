@@ -29,6 +29,14 @@ class Activity(models.Model):
 
 		return sum
 
+	@staticmethod
+	def getLvl(user_id):
+		""" Gets the level of the user based on the equation used to compute Pokemon Levels (i.e floor(cubed_root(exp))
+			where exp is rep points in our case)
+		"""
+		return int(Activity.getUserPoints(user_id) ** (1/3.0))
+
+
 	def getActivityUserPoints(self, user_id):
 		""" Returns number of points earned by the user for the current activity
 		"""
