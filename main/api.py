@@ -22,13 +22,19 @@ class JSONGetView(View):
 		return HttpResponse(json.dumps(out))
 
 class GetToken(JSONPostView):
+	# Input: {"id": "mypebbleid"}
+	# Output: {"token": "P23ASD", "error": 0}
 	def handle(self, obj):
-		return {"token": PebbleToken.getFreshToken(obj.id)}
+		return {"token": PebbleToken.getFreshToken(obj.id), "error": 0}
 
 class LogActivity(JSONPostView):
+	# Input: {"activity": "Jumping Jack", "token": "P35"}
+	# Output: {"error": 0}
 	def handle(self, obj):
-		return {"asdf": "boo"}
+		return {"error": 0}
 
 class ViewProfile(JSONPostView):
+	# Input: {"token": "P35"}
+	# Output: {"reps": 0, "name": "Hunter Leath", "error": 0}
 	def handle(self, obj):
-		return {"asdf": "boo"}
+		return {"reps": 0, "name": "Hunter Leath", "error": 0}
