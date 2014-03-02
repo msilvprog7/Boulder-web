@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from main.models import PebbleToken
 
-from clfMath import *
+from clfMath.features import *
 
 class JSONPostView(View):
 	@method_decorator(csrf_exempt)
