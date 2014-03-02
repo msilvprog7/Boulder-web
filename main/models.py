@@ -78,7 +78,7 @@ class CompletedActivity(models.Model):
 	def logActivityForUser(user, activity):
 		others = CompletedActivity.objects.filter(user=user, activity=activity).order_by("-time")
 		if len(others) != 0:
-			if (datetime.now() - others[0].time) < timedelta(seconds=5):
+			if (datetime.utcnow() - others[0].time) < timedelta(seconds=5):
 				others[0].number += 1
 				others[0].save()
 				return
