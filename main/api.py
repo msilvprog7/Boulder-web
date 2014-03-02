@@ -7,6 +7,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 from main.models import PebbleToken
 
+from clfMath import *
+
 class JSONPostView(View):
 	@method_decorator(csrf_exempt)
 	def dispatch(self, *args, **kwargs):
@@ -41,7 +43,20 @@ class LogActivity(JSONPostView):
 	# Input: {"activity": "Jumping Jack", "token": "P35"}
 	# Output: {"error": 0}
 	def handle(self, obj):
-		return {"error": 0}
+		try:
+			if not "data" in self.request.session:
+				clf = train()
+				dWindow = DataWindow()
+				dWindow.setClf(clf)
+				self.request.session["data"] = dWindow
+			for x in obj:
+				self.request.session["data"].push((x["x"], x["y"], x["z"], x["time"], 1))
+			activity = self.request.session["data"].calculate()
+			if activity[0] > 0:
+				print "Found Activity", str(activity[0])
+			return {"activity": activity[0], "error": 0}
+		except Exception as e:
+			return {"error": e.message}
 
 class ViewProfile(JSONPostView):
 	# Input: {"token": "P35", "id": "mypebbleid"}
