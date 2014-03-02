@@ -78,11 +78,30 @@
         <div class="panel panel-default">
           <div class="panel-heading"><span class="fa fa-globe"></span> newsfeed</div>
           <ul class="list-group">
-            <li class="list-group-item">Dylan went on a 30 min. jog.</li>
-            <li class="list-group-item">Dylan and you became friends!</li>
-            <li class="list-group-item">Joe and you became friends!</li>
-            <li class="list-group-item">Hunter did 15 pushups for 30 rep points.</li>
-            <li class="list-group-item">Hunter and you became friends!</li>
+          {% for news_item in news_items %}
+            <li class="list-group-item">
+              {% if news_item.other_user|is_none and news_item.completed_activity|is_none %}
+                [warning] incorrect NewsfeedItem composed
+              {% elif news_item.other_user|is_none %}
+                {{ news_item.user.first_name }} did {{ news_item.completed_activity.number }} {{ news_item.completed_activity.activity.name }} 
+                {{ news_item.completed_activity.number|pluralize }} for 
+                {{ news_item.completed_activity.getPoints }} rep point{{ news_item.completed_activity.getPoints|pluralize }}.
+              {% elif news_item.completed_activity|is_none %}
+                {% if request.user.id == news_item.other_user.id %}
+                  {{ news_item.user.first_name }} and you became friends!
+                {% else %}
+                  {{ news_item.user.first_name }} and {{ news_item.other_user.first_name }} became friends!
+                {% endif %}
+              {% else %}
+                [warning] incorrect NewsfeedItem composed
+              {% endif %}
+              <br />
+              <small class="extra-small pull-right">{{ news_item.time|date:"M. jS, Y (g:i a)" }}</small>
+              <br />
+            </li>
+          {% empty %}
+            <li class="list-group-item list-group-item-info">No Newsfeed Items at the moment.</li>
+          {% endfor %}
           </ul>
         </div>
       </div>

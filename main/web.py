@@ -3,7 +3,7 @@ from django.views.generic import TemplateView
 from django.http import Http404
 import random
 
-from main.models import Activity, CompletedActivity, FriendsRecord, Suggestion
+from main.models import Activity, CompletedActivity, FriendsRecord, Suggestion, NewsfeedItem
 from django.contrib.auth.models import User
 
 
@@ -27,6 +27,8 @@ class Dashboard(TemplateView):
 			if randInt not in suggestionSeq:
 				suggestionSeq.append(randInt)
 				context["suggestions"].append(Suggestion.objects.get(id=randInt))
+
+		context["news_items"] = sorted([item for subset in NewsfeedItem.getItems(FriendsRecord.getFriends(self.request.user.id)) for item in subset], key=lambda news_item: news_item.time, reverse=True)[:5]
 
 		return context
 

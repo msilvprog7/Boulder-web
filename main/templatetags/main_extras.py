@@ -7,3 +7,7 @@ register = template.Library()
 @stringfilter
 def url_name_scramble(value):
 	return '.'.join(value.lower().split())
+
+@register.filter
+def is_none(value):
+	return value == None

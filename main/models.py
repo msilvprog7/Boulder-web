@@ -59,13 +59,14 @@ class FriendsRecord(models.Model):
 
 	@staticmethod
 	def getFriends(user_id):
-		""" Get a set of friends for the given user_id
+		""" Get a set of FriendsRecord for the given user_id where user2 in each is one of user1's friends
 		"""
 		return FriendsRecord.objects.filter(user1_id=user_id, accepted=True)
 
 	@staticmethod
 	def getFriendRequests(user_id):
-		""" Get a set of pending friend requests for the given user_id
+		""" Get a set of FriendsRecord for pending friend requests for the given user_id so user1 in each is a 
+			pending friend request sent to user2
 		"""
 		return FriendsRecord.objects.filter(user2_id=user_id, accepted=False)
 
@@ -82,9 +83,13 @@ class FriendsRecord(models.Model):
 		"""
 		record1 = FriendsRecord.objects.filter(user1=user1, user2=user2).first()
 		record1.delete()
-
 		record2 = FriendsRecord.objects.filter(user1=user2, user2=user1).first()
 		record2.delete()
+
+		news_item1 = NewsfeedItem.objects.filter(user=user1, other_user=user2).first()
+		news_item1.delete()
+		news_item2 = NewsfeedItem.objects.filter(user=user2, other_user=user1).first()
+		news_item2.delete()
 
 	def acceptFriendRequest(self):
 		""" Accept the current FriendsRecord given that this is a pending friend request
@@ -94,6 +99,11 @@ class FriendsRecord(models.Model):
 			new_friends_record.save()
 			self.accepted = True
 			self.save()
+
+			news_item1 = NewsfeedItem(user=self.user1, other_user=self.user2)
+			news_item1.save()
+			news_item2 = NewsfeedItem(user=self.user2, other_user=self.user1)
+			news_item2.save()
 
 
 class PebbleToken(models.Model):
@@ -128,3 +138,23 @@ class PebbleToken(models.Model):
 class Suggestion(models.Model):
 	description = models.TextField()
 	time = models.DateTimeField(auto_now_add=True)
+
+
+class NewsfeedItem(models.Model):
+	user = models.ForeignKey(User, related_name="user_set")
+	other_user = models.ForeignKey(User, blank=True, null=True, default=None, related_name="other_user_set")
+
+	completed_activity = models.ForeignKey(CompletedActivity, blank=True, null=True, default=None)
+
+	time = models.DateTimeField(auto_now_add=True)
+	
+	@staticmethod
+	def getItems(friends_records):
+		""" Get NewsfeedItems for the given friends contained in FriendsRecord list given (via user2)
+		"""
+		news_item = []
+		for friends_record in friends_records:
+			news_item.append(NewsfeedItem.objects.filter(user=friends_record.user2).all())
+
+		return news_item
+
