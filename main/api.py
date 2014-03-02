@@ -51,6 +51,7 @@ class LogActivity(JSONPostView):
 			dWindow.next_window = self.request.session.get('next_window', [])
 
 			for x in obj:
+				print x
 				dWindow.push((x["x"], x["y"], x["z"], x["time"], 1))
 
 			activity = dWindow.calculate()
@@ -60,7 +61,7 @@ class LogActivity(JSONPostView):
 
 			if activity[0] > 0:
 				print "Found Activity", str(activity[0])
-				
+
 			return {"activity": activity[0], "error": 0}
 		except Exception as e:
 			return {"error": str(e)}
