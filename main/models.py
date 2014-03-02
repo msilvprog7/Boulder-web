@@ -43,7 +43,7 @@ class Activity(models.Model):
 	def getNextLvlExp(user_id):
 		""" Gets exp req to get to the next level from the base of the current level
 		"""
-		return int((Activity.getLvl(user_id) + 1) ** 3.0 - Activity.getUserPoints(user_id))
+		return int((Activity.getLvl(user_id) + 1) ** 3.0 - Activity.getLvl(user_id) ** 3.0)
 	
 	@staticmethod
 	def getCurrentLvlExp(user_id):
