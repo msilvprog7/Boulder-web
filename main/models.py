@@ -79,7 +79,7 @@ class CompletedActivity(models.Model):
 	def logActivityForUser(user, activity):
 		others = CompletedActivity.objects.filter(user=user, activity=activity).order_by("-time")
 		if len(others) != 0:
-			if (time.mktime(datetime.utcnow().timetuple()) - (time.mktime(others[0].time.timetuple())) < 5:
+			if (time.mktime(datetime.utcnow().timetuple()) - time.mktime(others[0].time.timetuple())) < 5:
 				others[0].number += 1
 				others[0].save()
 				return
