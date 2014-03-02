@@ -51,10 +51,9 @@ class LogActivity(JSONPostView):
 			dWindow.next_window = self.request.session.get('next_window', [])
 
 			for x in obj:
-				print x
 				dWindow.push((x["x"], x["y"], x["z"], x["time"], 1))
 
-			activity = dWindow.calculate()
+			activity = dWindow.predict()
 
 			self.request.session['current_window'] = dWindow.current_window
 			self.request.session['next_window'] = dWindow.next_window
