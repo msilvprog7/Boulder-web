@@ -37,7 +37,7 @@ class GetToken(JSONPostView):
 		try:
 			return {"token": PebbleToken.getFreshToken(obj["id"]), "error": 0}
 		except Exception as e:
-			return {"error": e.message}
+			return {"error": str(e)}
 
 class LogActivity(JSONPostView):
 	# Input: {"activity": "Jumping Jack", "token": "P35"}
@@ -56,7 +56,7 @@ class LogActivity(JSONPostView):
 				print "Found Activity", str(activity[0])
 			return {"activity": activity[0], "error": 0}
 		except Exception as e:
-			return {"error": e.message}
+			return {"error": str(e)}
 
 class ViewProfile(JSONPostView):
 	# Input: {"token": "P35", "id": "mypebbleid"}
@@ -66,7 +66,7 @@ class ViewProfile(JSONPostView):
 			u = PebbleToken.getUser(obj["token"], obj["id"])
 			return {"level": -1, "username": u.first_name, "error": 0}
 		except Exception as e:
-			return {"error": e.message}
+			return {"error": str(e)}
 
 @csrf_exempt
 def cookieTest(request):
