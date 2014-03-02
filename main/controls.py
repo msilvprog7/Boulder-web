@@ -10,6 +10,8 @@ from django.contrib import messages
 from django.views.generic.edit import FormView
 from django import forms
 
+from main.models import PebbleToken
+
 # Create your views here.
 
 class Home (TemplateView):
@@ -68,5 +70,7 @@ class RegisterToken(FormView):
 	success_url = "/boulder/home"
 
 	def form_valid(self, form):
-		print form.cleaned_data['token']
+		p = PebbleToken.objects.get(token=form.cleaned_data['token'], user=None)
+		p.linkUser(self.request.user)
+		messages.info(request, "Successfully linked your Pebble.")
 		return super(RegisterToken, self).form_valid(form)

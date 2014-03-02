@@ -82,7 +82,7 @@ class FriendsRecord(models.Model):
 class PebbleToken(models.Model):
 	token = models.CharField(max_length=255)
 	pebbleId = models.CharField(max_length=255)
-	user = models.ForeignKey(User)
+	user = models.ForeignKey(User, blank=True, null=True)
 	added = models.DateTimeField(auto_now_add=True)
 
 	class Meta:
@@ -98,3 +98,11 @@ class PebbleToken(models.Model):
 			return pt.token
 		except ValidationError:
 			return PebbleToken.getFreshToken(pebbleId)
+
+	@staticmethod
+	def getUser(token, pid):
+		return PebbleToken.objects.get(token=pebbleToken, pebbleId=pid).user
+
+	def linkUser(self, user):
+		self.user = user
+		self.save()
