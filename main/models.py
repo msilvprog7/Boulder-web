@@ -130,7 +130,7 @@ class PebbleToken(models.Model):
 
 	@staticmethod
 	def getUser(token, pid):
-		return PebbleToken.objects.get(token=pebbleToken, pebbleId=pid).user
+		return PebbleToken.objects.get(token=token, pebbleId=pid).user
 
 	def linkUser(self, user):
 		self.user = user
